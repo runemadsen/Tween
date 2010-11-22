@@ -12,7 +12,7 @@ Tween::Tween()
 /*	Setup methods
  ___________________________________________________ */
 
-void Tween::setup(int duration, float start, float change, string ease, int delay, int loop)
+void Tween::setup(int duration, float start, float change, float (* ease)(float, float, float, float), int delay, int loop)
 {
 	_tween.duration = duration;
 	_tween.loop = loop;
@@ -25,12 +25,12 @@ void Tween::setup(int duration, float start, float change, string ease, int dela
 	_ease = ease;
 }
 
-void Tween::setup(int duration, float start, float change, string ease)
+void Tween::setup(int duration, float start, float change, float (* ease)(float, float, float, float))
 {
 	setup(duration, start, change, ease, 0, 0);
 }
 
-void Tween::setup(int duration, float start, float change, string ease, int delay)
+void Tween::setup(int duration, float start, float change, float (* ease)(float, float, float, float), int delay)
 {
 	setup(duration, start, change, ease, delay, 0);
 }
@@ -59,74 +59,7 @@ void Tween::update()
 
 void Tween::runEasing()
 {
-	if (_ease == BACK_EASEIN)
-		num = Back::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == BACK_EASEOUT)
-		num = Back::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == BACK_EASEINOUT)
-		num = Back::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == BOUNCE_EASEIN)
-		num = Bounce::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == BOUNCE_EASEOUT)
-		num = Bounce::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == BOUNCE_EASEINOUT)
-		num = Bounce::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CIRC_EASEIN)
-		num = Circ::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CIRC_EASEOUT)
-		num = Circ::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CIRC_EASEINOUT)
-		num = Circ::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CUBIC_EASEIN)
-		num = Cubic::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CUBIC_EASEOUT)
-		num = Cubic::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == CUBIC_EASEINOUT)
-		num = Cubic::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == ELASTIC_EASEIN)
-		num = Elastic::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == ELASTIC_EASEOUT)
-		num = Elastic::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == ELASTIC_EASEINOUT)
-		num = Elastic::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == EXPO_EASEIN)
-		num = Expo::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == EXPO_EASEOUT)
-		num = Expo::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == EXPO_EASEINOUT)
-		num = Expo::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == LINEAR_EASEIN)
-		num = Linear::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == LINEAR_EASEOUT)
-		num = Linear::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == LINEAR_EASEINOUT)
-		num = Linear::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUAD_EASEIN)
-		num = Quad::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUAD_EASEOUT)
-		num = Quad::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUAD_EASEINOUT)
-		num = Quad::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUART_EASEIN)
-		num = Quart::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUART_EASEOUT)
-		num = Quart::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUART_EASEINOUT)
-		num = Quart::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUINT_EASEIN)
-		num = Quint::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUINT_EASEOUT)
-		num = Quint::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == QUINT_EASEINOUT)
-		num = Quint::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == SINE_EASEIN)
-		num = Sine::easeIn(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == SINE_EASEOUT)
-		num = Sine::easeOut(_tween.time, _start, _change, _tween.duration);
-	else if(_ease == SINE_EASEINOUT)
-		num = Sine::easeInOut(_tween.time, _start, _change, _tween.duration);
-	else 	
-		cout << "ERROR: Wrong tween specfied\n";
+	num = _ease(_tween.time, _start, _change, _tween.duration);
 }
 
 /*	Control methods

@@ -4,11 +4,13 @@ void testApp::setup()
 {
 	ofSetVerticalSync(true);
 	
-	myTween.setup(100, 0, ofGetWidth(), "Elastic.easeOut");
+	myTween.setup(100, 0, ofGetWidth() - 25, Easing::BounceEaseOut);
 	myTween.play();
 	
-	myTween2.setup(100, 0, ofGetWidth(), "Quad.easeInOut", 50); // this is a delayed tweeb
+	myTween2.setup(100, 0, ofGetWidth() - 25, Easing::QuadEaseOut, 50); // this is a delayed tweeb
 	myTween2.play();
+	
+	ofBackground(0, 0, 0);
 }
 
 //--------------------------------------------------------------
@@ -21,9 +23,11 @@ void testApp::update()
 //--------------------------------------------------------------
 void testApp::draw()
 {
-	ofRect(myTween.num,200,60,60);
+	ofSetColor(255, 0, 0);
+	ofRect(myTween.num,100,25,25);
 	
-	ofRect(myTween2.num,200,100,60);
+	ofSetColor(0, 255, 0);
+	ofRect(myTween2.num,200,25,25);
 	
 	if(myTween.finished())
 	{
@@ -47,3 +51,5 @@ void testApp::mouseDragged(int x, int y, int button){}
 void testApp::mousePressed(int x, int y, int button){}
 
 void testApp::mouseReleased(int x, int y, int button){}
+
+void testApp::windowResized(int w, int h) {}
